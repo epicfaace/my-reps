@@ -426,6 +426,7 @@ function sendletter2() {
         })
     }
     var url = "https://script.google.com/macros/s/AKfycbxl111UrIErf6mRD0-xoC1iYDhzOdFbS6uzZ8i7iZggxEPSGJMw/exec";
+    $("#btn_submit_text").text("Sending...");
     $.ajax({
         'type': 'POST',
         'url': url,
@@ -434,9 +435,11 @@ function sendletter2() {
         'dataType': 'json',
         success: function() {
             alert("Great! We've received your message, thanks!");
+            $("#btn_submit_text").text("Sent");
         },
         error: function(e) {
-            alert("Sorry, there was an error. Please email ashwin99@stanford.edu with the issue.")
+            alert("Sorry, there was an error. Please email ashwin99@stanford.edu with the issue.");
+            $("#btn_submit_text").text("Try sending again");
         }
     });
 }
