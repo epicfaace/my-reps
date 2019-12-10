@@ -7,30 +7,18 @@ layout: default
 <div class="row">
     <div class='col-md-10 col-md-offset-1'>
         <div class="input-group input-group-lg col-sm-8 col-sm-offset-2">
+            <input type="text" id="name" class="form-control" placeholder="Your name" />
+        </div><br />
+        <div class="input-group input-group-lg col-sm-8 col-sm-offset-2">
+            <input type="email" id="email" class="form-control" placeholder="Your email" />
+        </div><br />
+        <div class="input-group input-group-lg col-sm-8 col-sm-offset-2">
             <input type="text" class="form-control" placeholder="Enter your address to find who represents you" id="address" name="address" >
             <span class="input-group-btn">
                 <button class="btn btn-info" type="submit" id="address-search"><i class='fa fa-search'></i> <span class='hidden-xs hidden-sm'>Search</span></button>
                 <button class="btn btn-default" type="submit" id="find-me"><i class='fa fa-crosshairs'></i> <span class='hidden-xs hidden-sm'>Find me</span> </button>
             </span>
         </div>
-        <div class='col-sm-8 col-sm-offset-2 filter_level'>
-            <br /><p class='text-center'>
-                Show level of government:
-                <label>
-                    <input type="checkbox" id="show_local_results" value="Local"> Local
-                </label>
-                <label>
-                    <input type="checkbox" id="show_county_results" value="County"> County
-                </label>
-                <label>
-                    <input type="checkbox" id="show_state_results" value="State"> State
-                </label>
-                <label>
-                    <input type="checkbox" id="show_federal_results" value="Federal"> Federal
-                </label>
-            </p>
-        </div>
-        <br />
     </div>
 </div>
 <div class="row">
@@ -42,32 +30,9 @@ layout: default
         </div>
         <div id='response-container' style="display:none;">
 
-            <div class='text-center' id='address-image'></div>
-
-            <br />
-            <br />
-
-            <p class="lead text-center" id='results-nav'>
-                Levels of government<br />
-                  <span id='local-nav' style='display: none;'>
-                    <a id="local-name-nav" href="#local-name"></a>
-                  </span>
-                  <span id='county-nav' style='display: none;'>
-                    <a id="county-name-nav" href="#county-name"></a>
-                  </span>
-                  <span id='state-nav' style='display: none;'>
-                    <a id="state-name-nav" href="#state-name"></a>
-                  </span>
-                  <span id='fed-nav'>
-                    <a id="federal-name-nav" href="#federal-name">Federal</a></li>
-                  </span>
-                  
-                </ul>
-            </p>
+            <!-- <div class='text-center' id='address-image'></div> -->
 
             <hr />
-
-            <p class='text-center'><small><em>Note: Data comes from the <a target='_blank' href='https://developers.google.com/civic-information/'>Google Civic Information API</a>, which does not have 100% coverage of all representatives.<br />If you notice an issue with the data, please <a target='_blank' href='https://docs.google.com/forms/d/e/1FAIpQLScFpFTOkTpm0YoerLLprY_ySS9PRXLsu27SM01hebHqkefW2Q/viewform'>report it to Google</a>.</em></small></p>
 
             <div id='local-container'>
                 <br />
@@ -78,10 +43,7 @@ layout: default
                             <th></th>
                             <th>Representative</th>
                             <th class='hidden-xs hidden-sm'><i class='fa fa-institution'></i> Office</th>
-                            <th class='hidden-xs'><i class='fa fa-map-marker'></i> Address</th>
-                            <th><i class='fa fa-external-link'></i> Links</th>
-                            <th></th>
-                            
+                            <th class='hidden-xs'><i class='fa fa-map-marker'></i> Address</th>                            
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -134,7 +96,7 @@ layout: default
             </div>
 
             <div id='federal-container'>
-                <h3 id='federal-name' class='text-center'>United States Federal Government</h3>
+                <h3 id='federal-name' class='text-center'>We found these Congresspeople:</h3>
                 <table id="federal-results" class="table table-striped table-responsive">
                     <thead>
                         <tr>
@@ -142,29 +104,69 @@ layout: default
                             <th>Representative</th>
                             <th class='hidden-xs hidden-sm'><i class='fa fa-institution'></i> Office</th>
                             <th class='hidden-xs'><i class='fa fa-map-marker'></i> Address</th>
-                            <th><i class='fa fa-external-link'></i> Links</th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody></tbody>
                 </table>
             </div>
+
+            <p class='text-center'><small><em>Note: Data comes from the <a target='_blank' href='https://developers.google.com/civic-information/'>Google Civic Information API</a>, which does not have 100% coverage of all representatives.<br />If you notice an issue with the data, please <a target='_blank' href='https://docs.google.com/forms/d/e/1FAIpQLScFpFTOkTpm0YoerLLprY_ySS9PRXLsu27SM01hebHqkefW2Q/viewform'>report it to Google</a>.</em></small></p>
+
+
+            <div class="input-group input-group-lg col-sm-8 col-sm-offset-2">
+                <button class="btn btn-lg btn-primary" style="width:100%; margin-top: 20px; margin-bottom: 50px;" onclick="sendletter()">
+                    <i class='fa fa-envelope fa-2x'></i>
+                    <h2 style="color: white">Send your representatives a letter<br />urging them to take action</h2>
+                </button>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">When you click the "send a letter" button, the below letter template will be sent to your representatives:</div>
+                <div class="panel-body">
+                    Dear [Decision Maker],
+                    <br/><br/>
+                    As a student at Stanford University, I am writing to you about an issue that my friends and I care about deeply. I am requesting that you support the Children’s Act for Responsible Employment (CARE Act HR 3394) and Children Don’t Belong in Tobacco Farms Act (HR 3229 and S 1823) due to the severity of child labor in the tobacco industry. 
+    <br/><Br/>
+                    I am a college student at Stanford. I am a member of the 100 Million campaign, which was founded by Nobel Peace Laureate and child rights activist Kailash Satyarthi, to end child labor and stand up for children’s rights around the globe. This year, the U.S. 100 Million campaign has chosen to focus on child labor in the tobacco industry right here in the United States. 
+                    <br/><Br/>                
+                    The number of children working in tobacco fields has continued to rise in recent years. The
+                    Child Labor Coalition estimates there are more than 300,000 children working in the agricultural industry in the United States and U.S. laws allow this. Children working in these conditions face serious health issues, including a higher risk of cancer, reproductive health issues, mood disorders, and permanent neurological damage.
+                    <br/><Br/>
+                    After learning about the severity and danger of this issue, I wanted to reach out to ask you to
+                    join me in this fight. We have the ability to put an end to child labor in the tobacco industry
+                    that is happening in our own backyard. These violations of basic human rights can be stopped
+                    with your support of the CARE Act (CARE Act HR 3394) and Children Don’t Belong in Tobacco Farms Act (HR 3229 and S 1823). It is our responsibility to put a stop to this.
+                    <br/><Br/>
+                    By becoming a co-sponsor these bills, you will join other elected officials in standing up for the
+                    rights of children who deserve to be free, safe and educated. You will also join the
+                    100 Million campaign’s community which is led by passionate, intelligent and thoughtful
+                    young people. As our representative, your leadership on this issue helps to support us in being active citizens in our community and globally.
+                    <br/><Br/>
+                    For more information on the 100 Million campaign, please visit: www.100million.org. To stay engaged with the 100 Million campaign, continue to advocate for children's rights and contact the 100 Million D.C. office at helen@100million.org.
+                    <br/><Br/>
+                    Thank you for your time and support.
+                    Yours sincerely,
+                    <br/><Br/>
+                    [Your name here]
+                </div>
+            </div>
+            
         </div>
     </div>
 </div>
 
-<div class='row'>
+<div class='row about-container'>
     <div class='col-md-5 col-md-offset-2'>
         <br />
         <h2>About</h2>
         <div class='about'>
-            <p>This is a tool for looking up who your <a href='https://en.wikipedia.org/wiki/Representative_democracy' target='_blank'>elected representatives</a> are across the United States. Based on your address, we can find all the federal, state, county and local officials who represent you in government.</p>
+            <p>This site is built off of the Datamade my-reps tool, which is a tool for looking up who your <a href='https://en.wikipedia.org/wiki/Representative_democracy' target='_blank'>elected representatives</a> are across the United States. Based on your address, we can find all the federal, state, county and local officials who represent you in government.</p>
 
             <p>Knowing who these representatives are and contacting their offices directly is the most effective way to change how our government works.</p>
 
-            <p>Have an issue you care about? <strong>Find your rep and tell them!</strong></p>
+            <p>We will only use your information (name and address) in order to address and send a letter in your name that is sent to your representatives. If you have any questions, please contact <a href="mailto:ashwin99@stanford.edu">ashwin99@stanford.edu</a>.</p>
 
-            <p><a href='/about.html'>More about this project &raquo;</a></p>
+            <p><a target='_blank' href='https://github.com/datamade/my-reps'>More about the my-reps project &raquo;</a></p>
         </div>
     </div>
     <div class='col-md-3 hidden-xs hidden-sm'>
@@ -221,43 +223,6 @@ layout: default
                     <% }) %>
                 <% } %>
             </td>
-            <td>
-                <% if (info.channels || info.urls){ %>
-                    <span class='hidden-xs hidden-sm'>
-                        <% if (info.channels){ %>
-                        <% $.each(info.channels, function(i, channel){ %>
-                            <a href="<%= channel.link %>" target="_blank"><i class="fa fa-fw fa-<%= channel.icon %>"> </i></a>
-                        <% }) %>
-                        <% } %>
-                        <% if (info.urls){ %>
-                            <% $.each(info.urls, function(i, url){ %>
-                                <a href="<%= url %>" target="_blank"><i class="fa fa-fw fa-globe"> </i></a>
-                            <% }) %>
-                        <% } %>
-                    </span>
-                    <span class='visible-xs-inline visible-sm-inline'>
-                        <% if (info.channels){ %>
-                        <% $.each(info.channels, function(i, channel){ %>
-                            <a href="<%= channel.link %>" target="_blank"><i class="fa fa-fw fa-<%= channel.icon %>"> </i></a>
-                        <% }) %>
-                        <% } %>
-                        <% if (info.urls){ %>
-                            <% $.each(info.urls, function(i, url){ %>
-                                <a href="<%= url %>" target="_blank"><i class="fa fa-fw fa-globe"> </i></a>
-                            <% }) %>
-                        <% } %>
-                    </span>
-                <% } %>
-            </td>
-            <% if (info.phones || info.emails){ %>
-                <td class='nowrap'>
-                    <button type="button" class="btn btn-default btn-contact" data-toggle="modal" data-id="<%= info.pseudo_id %>">
-                        Contact <i class='fa fa-chevron-right'></i>
-                    </button>
-                </td>
-            <% } else { %>
-                <td></td>
-            <% } %>
         </tr>
     <% }) %>
 </script>

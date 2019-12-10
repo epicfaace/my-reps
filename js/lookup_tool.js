@@ -1,6 +1,8 @@
 var geocoder = new google.maps.Geocoder;
 var INFO_API = 'https://www.googleapis.com/civicinfo/v2/representatives';
 
+var cong_people;
+
 // parsing out division IDs
 var federal_pattern = "ocd-division/country:us";
 var state_pattern = /ocd-division\/country:us\/state:(\D{2}$)/;
@@ -43,22 +45,22 @@ function addressSearch() {
 
     var results_level_set = [];
     // set levels from checkboxes
-    if ($('#show_local_results').is(':checked')) {
-        show_local = true;
-        results_level_set.push('local');
-    }
-    if ($('#show_county_results').is(':checked')) {
-        show_county = true;
-        results_level_set.push('county');
-    }
-    if ($('#show_state_results').is(':checked')) {
-        show_state = true;
-        results_level_set.push('state');
-    }
-    if ($('#show_federal_results').is(':checked')) {
-        show_federal = true;
-        results_level_set.push('federal');
-    }
+    // if ($('#show_local_results').is(':checked')) {
+    //     show_local = true;
+    //     results_level_set.push('local');
+    // }
+    // if ($('#show_county_results').is(':checked')) {
+    //     show_county = true;
+    //     results_level_set.push('county');
+    // }
+    // if ($('#show_state_results').is(':checked')) {
+    //     show_state = true;
+    //     results_level_set.push('state');
+    // }
+    // if ($('#show_federal_results').is(':checked')) {
+    //     show_federal = true;
+    //     results_level_set.push('federal');
+    // }
 
     $.address.parameter('results_level', results_level_set);
 
@@ -91,6 +93,8 @@ function addressSearch() {
         var state_people = [];
         var county_people = [];
         var local_people = [];
+        var rep_people = [];
+        var sen_people = [];
 
         // console.log(data);
         // console.log(divisions);
@@ -149,6 +153,13 @@ function addressSearch() {
                             if (typeof person.emails !== 'undefined'){
                                 info['emails'] = person.emails;
                             }
+                            
+                            if (office_name.name === "U.S. Representative") {
+                                rep_people.push(info);
+                            }
+                            if (office_name.name === "U.S. Senator") {
+                                sen_people.push(info);
+                            }
 
                             if(checkFederal(division_id, office_name)) {
                                 info['jurisdiction'] = 'Federal Government';
@@ -176,13 +187,19 @@ function addressSearch() {
 
             var template = new EJS({'text': $('#tableGuts').html()});
             
+            cong_people = rep_people.concat(sen_people);
+            console.log(rep_people.concat(sen_people));
+            $('#federal-container').show();
+            $('#fed-nav').show();
+            $('#federal-results tbody').append(template.render({people: cong_people}));
+            
             if (show_federal) {
                 $('#federal-container').show();
                 $('#fed-nav').show();
                 $('#federal-results tbody').append(template.render({people: federal_people}));
             } else {
-                $('#federal-container').hide()
-                $('#fed-nav').hide();
+                // $('#federal-container').hide()
+                // $('#fed-nav').hide();
             }
 
             if (show_state) {
@@ -361,4 +378,65 @@ function toTitleCase(str)
 function convertToPlainString(text) {
     if (text === undefined) return '';
     return decodeURIComponent(text);
+}
+
+function getAddress(address) {
+    let final = "";
+    if (!address) {
+        return final;
+    }
+    if (address.line1) {
+        final += address.line1 + " ";
+    }
+    if (address.line2) {
+        final += address.line2 + " ";
+    }
+    if (address.city) {
+        final += address.city + " ";
+    }
+    if (address.state) {
+        final += address.state + " ";
+    }
+    if (address.zip) {
+        final += address.zip + " ";
+    }
+    return final;
+
+}
+
+
+function sendletter() {
+    $("#address-search").click();
+    setTimeout(sendletter2, 500);
+}
+function sendletter2() {
+    var name = document.getElementById("name").value;
+    var email = document.getElementById("email").value;
+    var address = document.getElementById("address").value;
+    var items = [];
+    for (i in cong_people) {
+        var person = cong_people[i];
+        items.push({
+            name: name,
+            email: email,
+            address: address,
+            rep_name: person.person.name,
+            rep_office: person.office.name,
+            rep_address: getAddress(person.address && person.address[0])
+        })
+    }
+    var url = "https://script.google.com/macros/s/AKfycbxl111UrIErf6mRD0-xoC1iYDhzOdFbS6uzZ8i7iZggxEPSGJMw/exec";
+    $.ajax({
+        'type': 'POST',
+        'url': url,
+        'contentType': 'text/plain; charset=utf-8',
+        'data': JSON.stringify({items: items}),
+        'dataType': 'json',
+        success: function() {
+            alert("Great! We've received your message, thanks!");
+        },
+        error: function(e) {
+            alert("Sorry, there was an error. Please email ashwin99@stanford.edu with the issue.")
+        }
+    });
 }

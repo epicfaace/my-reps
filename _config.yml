@@ -1,10 +1,11 @@
 port:  5000
 markdown: kramdown
-name: "My Reps"
-url: https://100millionsignup.netlify.com
+name: "Stop Child Labor in the Tobacco Industry"
+url: https://100millionsignup.netlify.com/
 encoding: utf-8
 timezone: America/Chicago
 description: "Enter your address to find and contact your federal, state, county and local elected representatives"
 gems:
   - jekyll-redirect-from
-google_api_key: AIzaSyD-Pk8JkC3bD8QNf_vg2TfgCbtDWL5kr7g
+google_api_key: AIzaSyBk3MvVDmqDF_scPL3mO-psJV6WwVlx47c
+  #AIzaSyCPBjxbj0KC9YXxTQjGuWykxLTZRyiQ1kQ
